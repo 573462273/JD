@@ -28,13 +28,13 @@ jobs:
           source_branch: "main"
           destination_branch: "master"
           github_token: ${{ github.event.client_payload.PAT || secrets.PAT }}
-      # 我自己同步到gitee使用，其他人可忽略
-      - name: sync github -> gitee
-        uses: Yikun/hub-mirror-action@master
-        if: env.dst_key
+          
+      #master同步到main
+      - name: Merge main from master
+        uses: devmasx/merge-branch@v1.3.1
+        if: env.PAT
         with:
-          src: github/shuye73
-          dst: gitee/shuye72
-          static_list: "MyActions"
-          dst_key: ${{ secrets.GITEE_PRIVATE_KEY }}
-          dst_token: ${{ secrets.GITEE_TOKEN }}
+          type: now
+          from_branch: master
+          target_branch: main
+          github_token: ${{ secrets.PAT }}
